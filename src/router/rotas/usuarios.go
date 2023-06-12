@@ -4,7 +4,7 @@ import "net/http"
 
 var usuariosRotas = []Rota{
 	{
-		Uri:    "usarios",
+		Uri:    "/usuarios",
 		Metodo: http.MethodPost,
 		Funcao: func(w http.ResponseWriter, r *http.Request) {
 
@@ -12,7 +12,7 @@ var usuariosRotas = []Rota{
 		RequerAutentication: false,
 	},
 	{
-		Uri:    "usarios",
+		Uri:    "/usuarios",
 		Metodo: http.MethodGet,
 		Funcao: func(w http.ResponseWriter, r *http.Request) {
 
@@ -20,7 +20,7 @@ var usuariosRotas = []Rota{
 		RequerAutentication: false,
 	},
 	{
-		Uri:    "/{id}/usarios",
+		Uri:    "/usuarios/{id}",
 		Metodo: http.MethodGet,
 		Funcao: func(w http.ResponseWriter, r *http.Request) {
 
@@ -28,7 +28,7 @@ var usuariosRotas = []Rota{
 		RequerAutentication: false,
 	},
 	{
-		Uri:    "/{id}/usarios",
+		Uri:    "/usuarios/{id}",
 		Metodo: http.MethodPut,
 		Funcao: func(w http.ResponseWriter, r *http.Request) {
 

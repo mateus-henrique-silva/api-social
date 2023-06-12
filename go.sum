@@ -1,2 +1,4 @@
 github.com/gorilla/mux v1.8.0 h1:i40aqfkR1h2SlN9hojwV5ZA91wcXFOvkdNIeFDP5koI=
 github.com/gorilla/mux v1.8.0/go.mod h1:DVbg23sWSpFRCP0SfiEN6jmj59UnW/n46BH5rLB71So=
+github.com/uticket/rest v1.2.0 h1:ngsYbQC7s6T7WD+8Rzr2OToEGwVlcpDWpcs/qOdVo58=
+github.com/uticket/rest v1.2.0/go.mod h1:Ym0RcTLPnzcLLTAtExQBSgmFn+Mdwus0A3Dl4wpx4Hs=
