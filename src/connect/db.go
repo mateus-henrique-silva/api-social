@@ -14,9 +14,10 @@ var (
 	collection *mongo.Collection
 )
 
+// tfxY81frdh82wnia
 func ConfigDataBase() (*mongo.Client, error) {
 	ctx := context.TODO()
-	clientOptions := options.Client().ApplyURI("mongodb+srv://henriques:passwordcluster0.qkszpsn.mongodb.net/?retryWrites=true&w=majority")
+	clientOptions := options.Client().ApplyURI("mongodb+srv://henriques:tfxY81frdh82wnia@cluster0.pwv6yik.mongodb.net/?retryWrites=true&w=majority")
 	client, err := mongo.Connect(ctx, clientOptions)
 	if err != nil {
 		return nil, err
