@@ -23,6 +23,10 @@ func postUser(w http.ResponseWriter, r *http.Request) {
 		Name string `json:"name"`
 	}
 	var body personJson
+
+	if err := rest.ParseBody(w, r, &body); err != nil {
+		return
+	}
 	person := entity.Usuario{
 		Id:        uuid.New(),
 		Name:      body.Name,

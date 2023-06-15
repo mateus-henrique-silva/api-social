@@ -5,15 +5,15 @@ import (
 	"log"
 	"net/http"
 
+	chiprometheus "github.com/766b/chi-prometheus"
 	"github.com/go-chi/chi/v5"
-	"github.com/go-chi/chi/v5/middleware"
 )
 
 func main() {
 	fmt.Println("Starting")
-
 	r := chi.NewRouter()
-	r.Use(middleware.Logger)
+	m := chiprometheus.NewMiddleware("router")
+	r.Use(m)
 	r.Mount("/user", userRouter())
 
 	log.Fatal(http.ListenAndServe(":5000", r))
