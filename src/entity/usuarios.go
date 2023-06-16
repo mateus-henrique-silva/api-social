@@ -3,11 +3,11 @@ package entity
 import (
 	"time"
 
-	"github.com/google/uuid"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type Usuario struct {
-	Id        uuid.UUID `bson:"id"`
-	Name      string    `bson:"name"`
-	CreatedAt time.Time `bson:"created"`
+	Id        primitive.ObjectID `bson:"_id"`
+	Name      string             `bson:"name"`
+	CreatedAt time.Time          `bson:"created"`
 }

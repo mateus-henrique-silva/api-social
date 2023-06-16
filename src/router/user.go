@@ -1,11 +1,11 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 	"time"
 
 	"github.com/go-chi/chi/v5"
-	"github.com/google/uuid"
 	"github.com/uticket/rest"
 	"go.mod/src/core"
 	"go.mod/src/entity"
@@ -29,7 +29,6 @@ func postUserHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	person := entity.Usuario{
-		Id:        uuid.New(),
 		Name:      body.Name,
 		CreatedAt: time.Now(),
 	}
@@ -41,7 +40,8 @@ func postUserHandler(w http.ResponseWriter, r *http.Request) {
 func getUserHandler(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	manager := core.NewUser()
-	searchId := r.URL.Query().Get("id")
+	searchId := r.URL.Query().Get("_id")
+	fmt.Println(searchId)
 	if searchId == "" {
 		sendManger, err := manager.UserGetManager(ctx)
 		if err != nil {
@@ -60,5 +60,5 @@ func getUserHandler(w http.ResponseWriter, r *http.Request) {
 		rest.Send(w, sendById)
 
 	}
-	// jsonWrite(w, http.StatusOK, result)
+
 }

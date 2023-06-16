@@ -6,6 +6,7 @@ import (
 	"go.mod/src/connect"
 	"go.mod/src/entity"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 func CreateUser(ctx context.Context, person entity.Usuario) (entity.Usuario, error) {
@@ -55,12 +56,13 @@ func FindById(ctx context.Context, id string) (entity.Usuario, error) {
 		return body, err
 	}
 	collection := client.Database("mydb").Collection("people")
-	filter := bson.D{{"id", id}}
+	resultId, _ := primitive.ObjectIDFromHex(id)
+	filter := bson.M{"_id": resultId}
 	single := collection.FindOne(ctx, filter)
 	err = single.Decode(&body)
 	if err != nil {
 		return body, err
 	}
-	return body, err
+	return body, nil
 
 }
