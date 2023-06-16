@@ -14,7 +14,7 @@ func NewUser() *UserManager {
 	return &UserManager{}
 }
 func (m *UserManager) UserPostManager(ctx context.Context, person entity.Usuario) error {
-	_, err := db.InsertName(ctx, person)
+	_, err := db.CreateUser(ctx, person)
 	if err != nil {
 		return err
 	}

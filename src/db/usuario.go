@@ -7,7 +7,7 @@ import (
 	"go.mod/src/entity"
 )
 
-func InsertName(ctx context.Context, person entity.Usuario) (entity.Usuario, error) {
+func CreateUser(ctx context.Context, person entity.Usuario) (entity.Usuario, error) {
 	client, err := connect.ConfigDataBase()
 	if err != nil {
 		return entity.Usuario{}, err

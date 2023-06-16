@@ -13,11 +13,11 @@ import (
 
 func userRouter() http.Handler {
 	r := chi.NewRouter()
-	r.Post("/", postUser)
+	r.Post("/", postUserHandler)
 	return r
 }
 
-func postUser(w http.ResponseWriter, r *http.Request) {
+func postUserHandler(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	type personJson struct {
 		Name string `json:"name"`
