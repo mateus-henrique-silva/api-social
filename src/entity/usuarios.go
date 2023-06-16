@@ -7,7 +7,7 @@ import (
 )
 
 type Usuario struct {
-	Id        uuid.UUID `json:"id"`
-	Name      string    `json:"name"`
-	CreatedAt time.Time `json:"created"`
+	Id        uuid.UUID `bson:"id"`
+	Name      string    `bson:"name"`
+	CreatedAt time.Time `bson:"created"`
 }
