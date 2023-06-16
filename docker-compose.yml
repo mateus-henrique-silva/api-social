@@ -1,0 +1,11 @@
+version: '3.9'
+
+services:
+  social-app:
+    container_name: social-app
+    image: golang:1.18
+    volumes: 
+      - ./go/src:/go/src
+    ports:
+      - 5050:5050
+    command: tail -f /go/src/router/main.go
