@@ -46,3 +46,11 @@ func (m *UserManager) RemoveByIdManager(ctx context.Context, id string) error {
 	}
 	return nil
 }
+
+func (m *UserManager) UpdateByIdManager(ctx context.Context, id string, person entity.Usuario) error {
+	err := db.UpdateById(ctx, id, person)
+	if err != nil {
+		return err
+	}
+	return nil
+}

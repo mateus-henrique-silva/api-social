@@ -82,3 +82,14 @@ func RemoveById(ctx context.Context, id string) error {
 	fmt.Println(result)
 	return nil
 }
+
+func UpdateById(ctx context.Context, id string, person entity.Usuario) error {
+	client, err := connect.ConfigDataBase()
+	if err != nil {
+		return err
+	}
+	collection := client.Database("mydb").Collection("people")
+	resultId, _ := primitive.ObjectIDFromHex(id)
+	filter := bson.D{{"$set", bson.D{{"name"}}}}
+	result, err := collection.UpdateOne(ctx, filter)
+}

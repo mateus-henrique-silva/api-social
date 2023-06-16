@@ -16,6 +16,7 @@ func userRouter() http.Handler {
 	r.Post("/", postUserHandler)
 	r.Get("/", getUserHandler)
 	r.Delete("/{id}", deleteUserHandler)
+	r.Put("/{id}", putUserHandler)
 	return r
 }
 
@@ -69,6 +70,27 @@ func deleteUserHandler(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")
 	manager := core.NewUser()
 	err := manager.RemoveByIdManager(ctx, id)
+	if err != nil {
+		rest.SendError(w, err)
+		return
+	}
+}
+
+func putUserHandler(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+	id := chi.URLParam(r, "id")
+	type bodyJson struct {
+		Name string `json:"name"`
+	}
+	var bodyJsonBody entity.Usuario
+	if err := rest.ParseBody(w, r, &bodyJsonBody); err != nil {
+		return
+	}
+	person := entity.Usuario{
+		Name: bodyJsonBody.Name,
+	}
+	manager := core.NewUser()
+	err := manager.UpdateByIdManager(ctx, id, person)
 	if err != nil {
 		rest.SendError(w, err)
 		return
