@@ -2,6 +2,7 @@ package db
 
 import (
 	"context"
+	"fmt"
 
 	"go.mod/src/connect"
 	"go.mod/src/entity"
@@ -64,4 +65,20 @@ func FindById(ctx context.Context, id string) (entity.Usuario, error) {
 	}
 	return body, nil
 
+}
+
+func RemoveById(ctx context.Context, id string) error {
+	client, err := connect.ConfigDataBase()
+	if err != nil {
+		return err
+	}
+	collection := client.Database("mydb").Collection("people")
+	resultId, _ := primitive.ObjectIDFromHex(id)
+	filter := bson.M{"_id": resultId}
+	result, err := collection.DeleteOne(ctx, filter)
+	if err != nil {
+		return err
+	}
+	fmt.Println(result)
+	return nil
 }

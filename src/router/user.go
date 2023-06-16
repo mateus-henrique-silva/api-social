@@ -15,6 +15,7 @@ func userRouter() http.Handler {
 	r := chi.NewRouter()
 	r.Post("/", postUserHandler)
 	r.Get("/", getUserHandler)
+	r.Delete("/{id}", deleteUserHandler)
 	return r
 }
 
@@ -61,4 +62,15 @@ func getUserHandler(w http.ResponseWriter, r *http.Request) {
 
 	}
 
+}
+
+func deleteUserHandler(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+	id := chi.URLParam(r, "id")
+	manager := core.NewUser()
+	err := manager.RemoveByIdManager(ctx, id)
+	if err != nil {
+		rest.SendError(w, err)
+		return
+	}
 }

@@ -38,3 +38,11 @@ func (m *UserManager) FindUserByIdManager(ctx context.Context, id string) (entit
 	}
 	return request, nil
 }
+
+func (m *UserManager) RemoveByIdManager(ctx context.Context, id string) error {
+	err := db.RemoveById(ctx, id)
+	if err != nil {
+		return err
+	}
+	return nil
+}
