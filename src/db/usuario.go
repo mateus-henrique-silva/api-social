@@ -90,6 +90,8 @@ func UpdateById(ctx context.Context, id string, person entity.Usuario) error {
 	}
 	collection := client.Database("mydb").Collection("people")
 	resultId, _ := primitive.ObjectIDFromHex(id)
-	filter := bson.D{{"$set", bson.D{{"name"}}}}
+	filter := bson.D{{"$set", bson.D{{"name", resultId}}}}
 	result, err := collection.UpdateOne(ctx, filter)
+	fmt.Println(result)
+	return err
 }
