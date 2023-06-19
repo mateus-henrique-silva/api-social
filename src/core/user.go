@@ -23,7 +23,7 @@ func (m *UserManager) UserPostManager(ctx context.Context, person entity.Usuario
 }
 
 func (m *UserManager) UserGetManager(ctx context.Context) ([]entity.Usuario, error) {
-	request, err := db.FindUser(ctx)
+	request, err := db.FindUsers(ctx)
 	if err != nil {
 		return nil, err
 	}

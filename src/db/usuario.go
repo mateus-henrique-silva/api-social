@@ -10,6 +10,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
+// CreateUser cria um usuario.
 func CreateUser(ctx context.Context, person entity.Usuario) (entity.Usuario, error) {
 	client, err := connect.ConfigDataBase()
 	if err != nil {
@@ -20,7 +21,8 @@ func CreateUser(ctx context.Context, person entity.Usuario) (entity.Usuario, err
 	return person, err
 }
 
-func FindUser(ctx context.Context) ([]entity.Usuario, error) {
+// FindUsers retorna todos os usuarios.
+func FindUsers(ctx context.Context) ([]entity.Usuario, error) {
 	client, err := connect.ConfigDataBase()
 	if err != nil {
 		return nil, err
@@ -49,6 +51,7 @@ func FindUser(ctx context.Context) ([]entity.Usuario, error) {
 	return request, nil
 }
 
+// FindById retorna usuarios a partir do id.
 func FindById(ctx context.Context, id string) (entity.Usuario, error) {
 	var body entity.Usuario
 	client, err := connect.ConfigDataBase()
@@ -67,6 +70,7 @@ func FindById(ctx context.Context, id string) (entity.Usuario, error) {
 
 }
 
+// RemoveById apaga o usuario a partir do id.
 func RemoveById(ctx context.Context, id string) error {
 	client, err := connect.ConfigDataBase()
 	if err != nil {
@@ -83,13 +87,15 @@ func RemoveById(ctx context.Context, id string) error {
 	return nil
 }
 
+// UpdateById atualiza os dados do user a partir do id.
 func UpdateById(ctx context.Context, id string, person entity.Usuario) error {
 	client, err := connect.ConfigDataBase()
 	if err != nil {
 		return err
 	}
 	resultId, _ := primitive.ObjectIDFromHex(id)
-	filter := bson.D{{Key: "_id", Value: resultId}} // Objeto de consulta (filtro)
+	// filter objeto de consulta (filtro)
+	filter := bson.D{{Key: "_id", Value: resultId}}
 	update := bson.D{{Key: "$set", Value: bson.D{{Key: "name", Value: person.Name}}}}
 	collection := client.Database("mydb").Collection("people")
 	result, err := collection.UpdateOne(ctx, filter, update)
