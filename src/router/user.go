@@ -34,6 +34,8 @@ func postUserHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	person := entity.Usuario{
 		Name:      body.Name,
+		Email:     body.Email,
+		Number:    body.Number,
 		CreatedAt: time.Now(),
 	}
 	manager := core.NewUser()
