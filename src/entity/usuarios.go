@@ -9,5 +9,7 @@ import (
 type Usuario struct {
 	Id        primitive.ObjectID `bson:"_id"`
 	Name      string             `bson:"name"`
+	Email     string             `bson:"email"`
+	Number    string             `bson:"number"`
 	CreatedAt time.Time          `bson:"created"`
 }

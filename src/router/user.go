@@ -23,7 +23,9 @@ func userRouter() http.Handler {
 func postUserHandler(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	type personJson struct {
-		Name string `json:"name"`
+		Name   string `json:"name"`
+		Email  string `json:"email"`
+		Number string `json:"number"`
 	}
 	var body personJson
 
@@ -78,6 +80,7 @@ func deleteUserHandler(w http.ResponseWriter, r *http.Request) {
 
 func putUserHandler(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
+
 	id := chi.URLParam(r, "id")
 	type bodyJson struct {
 		Name string `json:"name"`
