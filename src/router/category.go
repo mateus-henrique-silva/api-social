@@ -14,6 +14,7 @@ import (
 func categoryRouter() http.Handler {
 	r := chi.NewRouter()
 	r.Post("/", postCategoryHandler)
+	r.Get("/", getCategoryHandler)
 	return r
 }
 
@@ -38,4 +39,14 @@ func postCategoryHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	rest.Send(w, sendManager)
 
+}
+
+func getCategoryHandler(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+	manager := core.NewCategoryManager()
+	sendManager, err := manager.FindCategoryManager(ctx)
+	if err != nil {
+		return
+	}
+	rest.Send(w, sendManager)
 }
