@@ -15,7 +15,7 @@ func categoryRouter() http.Handler {
 	r := chi.NewRouter()
 	r.Post("/", postCategoryHandler)
 	r.Get("/", getCategoryHandler)
-	r.Put("/", putCategoryHandler)
+	r.Put("/{id}", putCategoryHandler)
 	return r
 }
 
@@ -64,11 +64,12 @@ func putCategoryHandler(w http.ResponseWriter, r *http.Request) {
 	send := entity.Category{
 		Name: body.Name,
 	}
+	id := chi.URLParam(r, "id")
 	manager := core.NewCategoryManager()
-	sendManger, err := manager.UpdateCategoryManager(ctx, send)
+	err := manager.UpdateCategoryManager(ctx, send, id)
 	if err != nil {
 		return
 	}
-	rest.Send(w, sendManger)
+	rest.Send(w, send)
 
 }

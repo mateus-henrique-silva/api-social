@@ -2,10 +2,12 @@ package db
 
 import (
 	"context"
+	"fmt"
 
 	"go.mod/src/connect"
 	"go.mod/src/entity"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 func CreateCategory(ctx context.Context, body entity.Category) (entity.Category, error) {
@@ -42,4 +44,18 @@ func FindCategoryAll(ctx context.Context) ([]entity.Category, error) {
 	}
 
 	return data, err
+}
+
+func UpdateCategory(ctx context.Context, id string, body entity.Category) error {
+	client, err := connect.ConfigDataBase()
+	if err != nil {
+		return err
+	}
+	resultId, _ := primitive.ObjectIDFromHex(id)
+	collection := client.Database("mydb").Collection("category")
+	filter := bson.M{"_id": resultId}
+	update := bson.M{"$set": body}
+	sendCollection, err := collection.UpdateOne(ctx, filter, update)
+	fmt.Println(sendCollection)
+	return err
 }

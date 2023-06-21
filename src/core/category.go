@@ -31,6 +31,10 @@ func (m *CategoryManager) FindCategoryManager(ctx context.Context) ([]entity.Cat
 	return result, nil
 }
 
-func (m *CategoryManager) UpdateCategoryManager(ctx context.Context, body entity.Category) (entity.Category, error) {
-
+func (m *CategoryManager) UpdateCategoryManager(ctx context.Context, body entity.Category, id string) error {
+	err := db.UpdateCategory(ctx, id, body)
+	if err != nil {
+		return err
+	}
+	return nil
 }
