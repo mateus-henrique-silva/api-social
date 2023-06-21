@@ -9,6 +9,7 @@ import (
 	"github.com/uticket/rest"
 	"go.mod/src/core"
 	"go.mod/src/entity"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 func userRouter() http.Handler {
@@ -23,9 +24,14 @@ func userRouter() http.Handler {
 func postUserHandler(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	type personJson struct {
-		Name   string `json:"name"`
-		Email  string `json:"email"`
-		Number string `json:"number"`
+		Name     string `json:"name"`
+		Email    string `json:"email"`
+		Password string `json:"password"`
+		City     string `json:"city"`
+		State    string `json:"state"`
+		Coutry   string `json:"coutry"`
+		Cep      string `json:"cep"`
+		Number   string `json:"number"`
 	}
 	var body personJson
 
@@ -33,8 +39,14 @@ func postUserHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	person := entity.Usuario{
+		Id:        primitive.NewObjectID(),
 		Name:      body.Name,
 		Email:     body.Email,
+		Password:  body.Password,
+		City:      body.City,
+		State:     body.State,
+		Coutry:    body.Coutry,
+		Cep:       body.Cep,
 		Number:    body.Number,
 		CreatedAt: time.Now(),
 	}

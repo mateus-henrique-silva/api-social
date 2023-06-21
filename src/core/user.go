@@ -2,10 +2,12 @@ package core
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/uticket/rest"
 	"go.mod/src/db"
 	"go.mod/src/entity"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type UserManager struct {
@@ -15,11 +17,22 @@ func NewUser() *UserManager {
 	return &UserManager{}
 }
 func (m *UserManager) UserPostManager(ctx context.Context, person entity.Usuario) error {
-	_, err := db.CreateUser(ctx, person)
+	password, err := HashPassword(person.Password)
+	if err != nil {
+		return err
+	}
+	person.Password = password
+	fmt.Println(password)
+	_, err = db.CreateUser(ctx, person)
 	if err != nil {
 		return err
 	}
 	return nil
+}
+
+func HashPassword(password string) (string, error) {
+	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
+	return string(bytes), err
 }
 
 func (m *UserManager) UserGetManager(ctx context.Context) ([]entity.Usuario, error) {
