@@ -59,3 +59,21 @@ func UpdateCategory(ctx context.Context, id string, body entity.Category) error 
 	fmt.Println(sendCollection)
 	return err
 }
+
+func CheckIfCategoryExists(ctx context.Context, name string) (bool, error) {
+	client, err := connect.ConfigDataBase()
+	if err != nil {
+		return false, err
+	}
+
+	collection := client.Database("mydb").Collection("category")
+
+	filter := bson.M{"name": name}
+
+	count, err := collection.CountDocuments(ctx, filter)
+	if err != nil {
+		return false, err
+	}
+
+	return count > 0, nil
+}

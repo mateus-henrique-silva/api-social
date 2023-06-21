@@ -16,6 +16,14 @@ func NewCategoryManager() *CategoryManager {
 }
 
 func (m *CategoryManager) CreateCategoryManager(ctx context.Context, body entity.Category) (entity.Category, error) {
+	exist, err := db.CheckIfCategoryExists(ctx, body.Name)
+	if err != nil {
+		return entity.Category{}, &rest.Error{Status: 400, Code: "error_consult", Message: "erro ao realizar check"}
+	}
+	if exist {
+		return entity.Category{}, &rest.Error{Status: 400, Code: "error_name_exists", Message: "nome ja existe"}
+	}
+
 	result, err := db.CreateCategory(ctx, body)
 	if err != nil {
 		return result, err

@@ -102,3 +102,36 @@ func UpdateById(ctx context.Context, id string, person entity.Usuario) error {
 	fmt.Println(result)
 	return err
 }
+
+func CheckIfUserExists(ctx context.Context, name string) (bool, error) {
+	client, err := connect.ConfigDataBase()
+	if err != nil {
+		return false, err
+	}
+
+	collection := client.Database("mydb").Collection("people")
+
+	filter := bson.M{"name": name}
+
+	count, err := collection.CountDocuments(ctx, filter)
+	if err != nil {
+		return false, err
+	}
+
+	return count > 0, nil
+}
+
+func CheckIfUserEmailExists(ctx context.Context, email string) (bool, error) {
+	client, err := connect.ConfigDataBase()
+	if err != nil {
+		return false, err
+	}
+	collection := client.Database("mydb").Collection("people")
+	filter := bson.M{"email": email}
+	count, err := collection.CountDocuments(ctx, filter)
+	if err != nil {
+		return false, err
+	}
+
+	return count > 0, nil
+}

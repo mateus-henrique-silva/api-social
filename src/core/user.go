@@ -2,7 +2,6 @@ package core
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/uticket/rest"
 	"go.mod/src/db"
@@ -22,7 +21,20 @@ func (m *UserManager) UserPostManager(ctx context.Context, person entity.Usuario
 		return err
 	}
 	person.Password = password
-	fmt.Println(password)
+	consult, err := db.CheckIfUserExists(ctx, person.Name)
+	if err != nil {
+		return &rest.Error{Status: 400, Code: "error", Message: "consult error "}
+	}
+	if consult {
+		return &rest.Error{Status: 400, Code: "user_exists", Message: "consulta retorna que o nome ja existe"}
+	}
+	existEmail, err := db.CheckIfUserEmailExists(ctx, person.Email)
+	if err != nil {
+		return &rest.Error{Status: 400, Code: "error", Message: "consult error "}
+	}
+	if existEmail {
+		return &rest.Error{Status: 400, Code: "email_exists", Message: "consulta retorna que o email ja existe"}
+	}
 	_, err = db.CreateUser(ctx, person)
 	if err != nil {
 		return err

@@ -36,6 +36,7 @@ func postCategoryHandler(w http.ResponseWriter, r *http.Request) {
 	manager := core.NewCategoryManager()
 	sendManager, err := manager.CreateCategoryManager(ctx, body)
 	if err != nil {
+		rest.SendError(w, err)
 		return
 	}
 	rest.Send(w, sendManager)
@@ -71,5 +72,4 @@ func putCategoryHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	rest.Send(w, send)
-
 }
