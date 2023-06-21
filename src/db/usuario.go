@@ -18,7 +18,7 @@ func CreateUser(ctx context.Context, person entity.Usuario) (entity.Usuario, err
 	}
 	collection := client.Database("mydb").Collection("people")
 	_, err = collection.InsertOne(ctx, person)
-	return person, err
+	return person, nil
 }
 
 // FindUsers retorna todos os usuarios.

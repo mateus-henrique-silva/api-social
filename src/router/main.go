@@ -15,6 +15,7 @@ func main() {
 	m := chiprometheus.NewMiddleware("router")
 	r.Use(m)
 	r.Mount("/user", userRouter())
+	r.Mount("/category", categoryRouter())
 
 	log.Fatal(http.ListenAndServe(":5000", r))
 }

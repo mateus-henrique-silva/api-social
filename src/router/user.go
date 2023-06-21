@@ -39,7 +39,7 @@ func postUserHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	person := entity.Usuario{
-		Id:        primitive.NewObjectID(),
+		ID:        primitive.NewObjectID(),
 		Name:      body.Name,
 		Email:     body.Email,
 		Password:  body.Password,
