@@ -15,6 +15,7 @@ func categoryRouter() http.Handler {
 	r := chi.NewRouter()
 	r.Post("/", postCategoryHandler)
 	r.Get("/", getCategoryHandler)
+	r.Put("/", putCategoryHandler)
 	return r
 }
 
@@ -49,4 +50,25 @@ func getCategoryHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	rest.Send(w, sendManager)
+}
+
+func putCategoryHandler(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+	type personJson struct {
+		Name string `json:"name"`
+	}
+	var body entity.Category
+	if err := rest.ParseBody(w, r, &body); err != nil {
+		return
+	}
+	send := entity.Category{
+		Name: body.Name,
+	}
+	manager := core.NewCategoryManager()
+	sendManger, err := manager.UpdateCategoryManager(ctx, send)
+	if err != nil {
+		return
+	}
+	rest.Send(w, sendManger)
+
 }

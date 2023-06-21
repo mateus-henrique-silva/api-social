@@ -30,3 +30,7 @@ func (m *CategoryManager) FindCategoryManager(ctx context.Context) ([]entity.Cat
 	}
 	return result, nil
 }
+
+func (m *CategoryManager) UpdateCategoryManager(ctx context.Context, body entity.Category) (entity.Category, error) {
+
+}
