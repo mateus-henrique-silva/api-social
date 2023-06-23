@@ -7,19 +7,22 @@ import (
 )
 
 type Post struct {
-	ID        primitive.ObjectID `bson:"id"`
-	Title     string             `bson:"title"`
-	Text      string             `bson:"text"`
-	NameUser  string             `bson:"name"`
-	Image     PostImageMultiples `bson:"image"`
-	CreatedAt time.Time          `bson:"created_at"`
-	UpdatedAt time.Time          `bson:"updated_at"`
+	ID               primitive.ObjectID `bson:"_id"`
+	Title            string             `bson:"title"`
+	TitleSlug        string             `bson:"titleSlug"`
+	Text             string             `bson:"text"`
+	NameUser         string             `bson:"name"`
+	Image            PostImageMultiples `bson:"image"`
+	BannerAltText    string             `bson:"bannerAltText"`
+	CommentsQuantity uint64             `bson:"commentsQuantity"`
+	CreatedAt        time.Time          `bson:"createdAt"`
+	UpdatedAt        time.Time          `bson:"updatedAt"`
 }
 
 type PostImageMultiples struct {
-	ImageOne   string `bson:"image_one"`
-	ImageTwo   string `bson:"image_two"`
-	ImageThree string `bson:"image_three"`
-	ImageFour  string `bson:"image_four"`
-	ImageFive  string `bson:"image_five"`
+	ImageOne   string `bson:"imageOne"`
+	ImageTwo   string `bson:"imageTwo"`
+	ImageThree string `bson:"imageThree"`
+	ImageFour  string `bson:"imageFour"`
+	ImageFive  string `bson:"imageFive"`
 }

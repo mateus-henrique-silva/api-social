@@ -16,6 +16,7 @@ func main() {
 	r.Use(m)
 	r.Mount("/user", userRouter())
 	r.Mount("/category", categoryRouter())
+	r.Mount("/post", postRouter())
 
 	log.Fatal(http.ListenAndServe(":5000", r))
 }

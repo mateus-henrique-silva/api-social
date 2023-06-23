@@ -21,20 +21,28 @@ func postRouter() http.Handler {
 func postAddHandler(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	type personJson struct {
-		Title    string                    `json:"title"`
-		Text     string                    `json:"text"`
-		NameUser string                    `json:"name"`
-		Image    entity.PostImageMultiples `json:"image"`
+		Title            string                    `json:"title"`
+		TitleSlug        string                    `json:"titleSlug"`
+		Text             string                    `json:"text"`
+		NameUser         string                    `json:"name"`
+		Image            entity.PostImageMultiples `json:"image"`
+		BannerAltText    string                    `json:"bannerAltText"`
+		CommentsQuantity uint64                    `json:"commentsQuantity"`
 	}
 	var body personJson
-
+	if err := rest.ParseBody(w, r, &body); err != nil {
+		rest.SendError(w, err)
+		return
+	}
 	post := entity.Post{
-		ID:        primitive.NewObjectID(),
-		Title:     body.Title,
-		Text:      body.Text,
-		NameUser:  body.NameUser,
-		Image:     body.Image,
-		CreatedAt: time.Now(),
+		ID:            primitive.NewObjectID(),
+		Title:         body.Title,
+		TitleSlug:     body.TitleSlug,
+		Text:          body.Text,
+		NameUser:      body.NameUser,
+		Image:         body.Image,
+		BannerAltText: body.BannerAltText,
+		CreatedAt:     time.Now(),
 	}
 	manager := core.NewPostManager()
 	err := manager.InsertPost(ctx, post)
