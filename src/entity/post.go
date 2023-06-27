@@ -7,28 +7,28 @@ import (
 )
 
 type Post struct {
-	ID               primitive.ObjectID `bson:"_id"`
-	Title            string             `bson:"title"`
-	TitleSlug        string             `bson:"titleSlug"`
-	Text             string             `bson:"text"`
-	NameUser         string             `bson:"name"`
-	Category         string             `bson:"category"`
-	Image            PostImageMultiples `bson:"image"`
-	BannerAltText    string             `bson:"bannerAltText"`
-	CommentsQuantity uint64             `bson:"commentsQuantity"`
-	CreatedAt        time.Time          `bson:"createdAt"`
-	UpdatedAt        time.Time          `bson:"updatedAt"`
+	ID               primitive.ObjectID `bson:"_id" json:"id"`
+	Title            string             `bson:"title" json:"title"`
+	TitleSlug        string             `bson:"titleSlug" json:"titleSlug"`
+	Text             string             `bson:"text" json:"text"`
+	NameUser         string             `bson:"name" json:"nameUser"`
+	Category         string             `bson:"category" json:"category"`
+	Image            PostImageMultiples `bson:"image" json:"image"`
+	BannerAltText    string             `bson:"bannerAltText" json:"bannerAltText"`
+	CommentsQuantity uint64             `bson:"commentsQuantity" json:"commentsQuantity"`
+	CreatedAt        time.Time          `bson:"createdAt" json:"createdAt"`
+	UpdatedAt        time.Time          `bson:"updatedAt" json:"updatedAt"`
 }
 
 type PostImageMultiples struct {
-	ImageOne   string `bson:"imageOne"`
-	ImageTwo   string `bson:"imageTwo"`
-	ImageThree string `bson:"imageThree"`
-	ImageFour  string `bson:"imageFour"`
-	ImageFive  string `bson:"imageFive"`
+	ImageOne   string `bson:"imageOne" json:"imageOne"`
+	ImageTwo   string `bson:"imageTwo" json:"imageTwo"`
+	ImageThree string `bson:"imageThree" json:"imageThree"`
+	ImageFour  string `bson:"imageFour" json:"imageFour"`
+	ImageFive  string `bson:"imageFive" json:"imageFive"`
 }
 
 type PostReturnResponse struct {
-	Category string `bson:"category"`
-	Post     []Post `bson:"post"`
+	Category string `bson:"category" json:"category"`
+	Post     Post   `bson:"post" json:"post"`
 }

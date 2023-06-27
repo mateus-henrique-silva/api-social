@@ -38,27 +38,38 @@ func CheckIfPostNameExists(ctx context.Context, title string) (bool, error) {
 
 	return count > 0, nil
 }
-
 func GetIndexPost(ctx context.Context) ([]entity.PostReturnResponse, error) {
 	client, err := connect.ConfigDataBase()
 	if err != nil {
 		return nil, err
 	}
+
 	collection := client.Database("mydb").Collection("post")
-	sendCollection, err := collection.Find(ctx, &entity.PostReturnResponse{})
+	sendCollection, err := collection.Find(ctx, bson.M{})
 	if err != nil {
 		return nil, err
 	}
 	defer sendCollection.Close(ctx)
+
 	var data []entity.PostReturnResponse
 	for sendCollection.Next(ctx) {
-		var body entity.PostReturnResponse
-		err := sendCollection.Decode(&body)
+		var post entity.Post
+		var postReturnResponse entity.PostReturnResponse
+
+		err := sendCollection.Decode(&post)
 		if err != nil {
 			return nil, err
 		}
-		data = append(data, body)
+
+		postReturnResponse.Category = post.Category
+		postReturnResponse.Post = post
+
+		data = append(data, postReturnResponse)
 	}
 
-	return data, err
+	if err := sendCollection.Err(); err != nil {
+		return nil, err
+	}
+
+	return data, nil
 }
