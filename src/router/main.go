@@ -14,6 +14,7 @@ func main() {
 	r := chi.NewRouter()
 	m := chiprometheus.NewMiddleware("router")
 	r.Use(m)
+	r.Mount("/login", LoginRouter())
 	r.Mount("/user", userRouter())
 	r.Mount("/category", categoryRouter())
 	r.Mount("/post", postRouter())

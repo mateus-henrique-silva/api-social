@@ -8,11 +8,13 @@ import (
 	"github.com/uticket/rest"
 	"go.mod/src/core"
 	"go.mod/src/entity"
+	"go.mod/src/middleware"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 func postRouter() http.Handler {
 	r := chi.NewRouter()
+	r.Use(middleware.AuthMiddleware)
 	r.Post("/", postAddHandler)
 	r.Get("/index", getIndexHandler)
 
