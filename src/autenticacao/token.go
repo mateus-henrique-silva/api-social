@@ -25,37 +25,43 @@ func CreateToken(ctx context.Context, usuarioID primitive.ObjectID) (string, err
 	}
 	fmt.Println(id)
 	permission["usuarioId"] = id
-	//Secret
-	token := jwt.NewWithClaims(jwt.SigningMethodES256, permission)
-	return token.SignedString([]byte(connect.SecretKey))
-
+	// Secret Key
+	// fmt.Println(connect.SecretKey)
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, permission)
+	str, err := token.SignedString([]byte(connect.SecretKey))
+	if err != nil {
+		return "", err
+	}
+	return str, nil
 }
 
-func ValidationToken(r *http.Request) (bool, error) {
-	tokenString := extration(r)
-	token, err := jwt.Parse(tokenString, returnKeyVerfication)
+func ValidateToken(r *http.Request) (bool, error) {
+	tokenString := extraction(r)
+	token, err := jwt.Parse(tokenString, returnKeyVerification)
 	if err != nil {
 		return false, err
 	}
 	fmt.Println(token)
 	return true, nil
 }
-func extration(r *http.Request) string {
+
+func extraction(r *http.Request) string {
 	token := r.Header.Get("Authorization")
 	if len(strings.Split(token, " ")) == 2 {
 		return strings.Split(token, " ")[1]
 	}
 	return ""
 }
-func returnKeyVerfication(token *jwt.Token) (interface{}, error) {
-	if _, ok := token.Method.(*jwt.SigningMethodECDSA); !ok {
-		return nil, fmt.Errorf("Metodo de assinatura inesperado")
+
+func returnKeyVerification(token *jwt.Token) (interface{}, error) {
+	if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+		return nil, fmt.Errorf("unexpected signing method")
 	}
-	return &connect.SecretKey, nil
+	return []byte("Secret"), nil
 }
 
 func ExtractNumberFromObjectID(objectID primitive.ObjectID) (int64, error) {
-	objectIDString := objectID.String()
+	objectIDString := objectID.Hex()
 	bytes, err := hex.DecodeString(objectIDString)
 	if err != nil {
 		return 0, err

@@ -11,7 +11,7 @@ func AuthMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		// Verificar a autenticação aqui
 		// Por exemplo, verificar se o token de autenticação está presente no cabeçalho da solicitação
-		authenticated, err := autenticacao.ValidationToken(r)
+		authenticated, err := autenticacao.ValidateToken(r)
 		if err != nil {
 			return
 		}

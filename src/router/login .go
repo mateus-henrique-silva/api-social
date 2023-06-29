@@ -30,9 +30,12 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 		Password: body.Password,
 	}
 	manager := core.NewManagerLogin()
-	_, err := manager.ManagerLoginVerify(ctx, person)
+	boolean, err := manager.ManagerLoginVerify(ctx, person)
 	if err != nil {
 		rest.SendError(w, err)
 		return
 	}
+
+	w.Write([]byte(boolean))
+
 }
