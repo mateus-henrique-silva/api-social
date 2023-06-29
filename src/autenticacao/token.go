@@ -3,6 +3,7 @@ package autenticacao
 import (
 	"context"
 	"encoding/hex"
+	"errors"
 	"fmt"
 	"math/big"
 	"net/http"
@@ -14,7 +15,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-// Criar Token cria o token de autenticacao.
+// CreateToken cria o token de autenticação.
 func CreateToken(ctx context.Context, usuarioID primitive.ObjectID) (string, error) {
 	permission := jwt.MapClaims{}
 	permission["authorized"] = true
@@ -23,10 +24,8 @@ func CreateToken(ctx context.Context, usuarioID primitive.ObjectID) (string, err
 	if err != nil {
 		return "", err
 	}
-	fmt.Println(id)
 	permission["usuarioId"] = id
-	// Secret Key
-	// fmt.Println(connect.SecretKey)
+
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, permission)
 	str, err := token.SignedString([]byte(connect.SecretKey))
 	if err != nil {
@@ -37,27 +36,38 @@ func CreateToken(ctx context.Context, usuarioID primitive.ObjectID) (string, err
 
 func ValidateToken(r *http.Request) (bool, error) {
 	tokenString := extraction(r)
+	if tokenString == "" {
+		return false, errors.New("Token de autenticação não fornecido")
+	}
+
 	token, err := jwt.Parse(tokenString, returnKeyVerification)
 	if err != nil {
 		return false, err
 	}
-	fmt.Println(token)
+
+	if !token.Valid {
+		return false, errors.New("Token de autenticação inválido")
+	}
+
 	return true, nil
 }
 
 func extraction(r *http.Request) string {
 	token := r.Header.Get("Authorization")
-	if len(strings.Split(token, " ")) == 2 {
-		return strings.Split(token, " ")[1]
+	if token != "" {
+		splitToken := strings.Split(token, "Bearer ")
+		if len(splitToken) == 2 {
+			return splitToken[1]
+		}
 	}
 	return ""
 }
 
 func returnKeyVerification(token *jwt.Token) (interface{}, error) {
 	if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-		return nil, fmt.Errorf("unexpected signing method")
+		return nil, fmt.Errorf("Método de assinatura inesperado")
 	}
-	return []byte("Secret"), nil
+	return []byte(connect.SecretKey), nil
 }
 
 func ExtractNumberFromObjectID(objectID primitive.ObjectID) (int64, error) {

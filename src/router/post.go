@@ -14,9 +14,8 @@ import (
 
 func postRouter() http.Handler {
 	r := chi.NewRouter()
-	r.Use(middleware.AuthMiddleware)
 	r.Post("/", postAddHandler)
-	r.Get("/index", getIndexHandler)
+	r.Get("/index", middleware.AuthMiddleware(getIndexHandlerFunc(getIndexHandler))) // Aplicando o middleware apenas nesta rota
 
 	return r
 }
@@ -68,4 +67,10 @@ func getIndexHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	rest.Send(w, send)
 
+}
+
+type getIndexHandlerFunc func(w http.ResponseWriter, r *http.Request)
+
+func (f getIndexHandlerFunc) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	f(w, r)
 }
