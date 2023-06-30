@@ -38,3 +38,12 @@ func (m *PostManager) GetIndexHandler(ctx context.Context) ([]entity.PostReturnR
 	}
 	return send, nil
 }
+
+func (m *PostManager) GetIndexPostById(ctx context.Context, id string) (entity.Post, error) {
+	server, err := db.GetPost(ctx, id)
+	if err != nil {
+		return entity.Post{}, &rest.Error{Status: 400, Code: "erro_consult", Message: "erro ao realizar consulta de retorno de dados da api"}
+	}
+
+	return server, nil
+}

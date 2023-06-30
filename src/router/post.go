@@ -61,12 +61,15 @@ func postAddHandler(w http.ResponseWriter, r *http.Request) {
 func getIndexHandler(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	manager := core.NewPostManager()
-	send, err := manager.GetIndexHandler(ctx)
-	if err != nil {
-		rest.SendError(w, err)
-		return
+	idParams := r.URL.Query().Get("id")
+	if idParams == "" {
+		send, err := manager.GetIndexHandler(ctx)
+		if err != nil {
+			rest.SendError(w, err)
+			return
+		}
+		rest.Send(w, send)
 	}
-	rest.Send(w, send)
 
 }
 
