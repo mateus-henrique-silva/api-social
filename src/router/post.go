@@ -69,6 +69,13 @@ func getIndexHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		rest.Send(w, send)
+	} else {
+		send, err := manager.GetIndexPostById(ctx, idParams)
+		if err != nil {
+			rest.SendError(w, err)
+			return
+		}
+		rest.Send(w, send)
 	}
 
 }
