@@ -9,7 +9,7 @@ import (
 type Comments struct {
 	Id           primitive.ObjectID `bson:"_id"`
 	IdPost       string             `bson:"idPost"`
-	UserComments string             `bson:"userComments"`
+	UserComments string             `bson:"userComments" json:"userComments"`
 	CommentsText string             `bson:"commentsText"`
 	CreatedAt    time.Time          `bson:"createdAt"`
 }

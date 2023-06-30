@@ -74,21 +74,24 @@ func GetIndexPost(ctx context.Context) ([]entity.PostReturnResponse, error) {
 	return data, nil
 }
 
-func GetPost(ctx context.Context, id string) (entity.Post, error) {
+func GetPost(ctx context.Context, name string) (entity.Post, error) {
 	client, err := connect.ConfigDataBase()
 	if err != nil {
 		return entity.Post{}, err
 	}
 
-	collection := client.Database("mydb").Collection("post")
+	db := client.Database("mydb")
+	postCollection := db.Collection("post")
+	commentCollection := db.Collection("comments")
+
 	post := entity.Post{}
-	err = collection.FindOne(ctx, bson.M{"_id": id}).Decode(&post)
+	err = postCollection.FindOne(ctx, bson.M{"name": name}).Decode(&post)
 	if err != nil {
 		return entity.Post{}, err
 	}
-	collectioComment := client.Database("mydb").Collection("comments")
+
 	comments := []entity.Comments{}
-	cursor, err := collectioComment.Find(ctx, bson.M{"idPost": id})
+	cursor, err := commentCollection.Find(ctx, bson.M{"userComments": name})
 	if err != nil {
 		return entity.Post{}, err
 	}
