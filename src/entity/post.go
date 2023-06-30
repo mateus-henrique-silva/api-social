@@ -16,6 +16,7 @@ type Post struct {
 	Image            PostImageMultiples `bson:"image" json:"image"`
 	BannerAltText    string             `bson:"bannerAltText" json:"bannerAltText"`
 	CommentsQuantity uint64             `bson:"commentsQuantity" json:"commentsQuantity"`
+	LinkYoutube      string             `bson:"linkYoutube" json:"linkYoutube"`
 	CreatedAt        time.Time          `bson:"createdAt" json:"createdAt"`
 	UpdatedAt        time.Time          `bson:"updatedAt" json:"updatedAt"`
 }

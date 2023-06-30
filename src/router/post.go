@@ -27,6 +27,7 @@ func postAddHandler(w http.ResponseWriter, r *http.Request) {
 		TitleSlug        string                    `json:"titleSlug"`
 		Text             string                    `json:"text"`
 		NameUser         string                    `json:"name"`
+		LinkYoutube      string                    `json:"linkYoutube"`
 		Category         string                    `json:"category"`
 		Image            entity.PostImageMultiples `json:"image"`
 		BannerAltText    string                    `json:"bannerAltText"`
