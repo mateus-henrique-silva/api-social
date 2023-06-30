@@ -24,14 +24,15 @@ func userRouter() http.Handler {
 func postUserHandler(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	type personJson struct {
-		Name     string `json:"name"`
-		Email    string `json:"email"`
-		Password string `json:"password"`
-		City     string `json:"city"`
-		State    string `json:"state"`
-		Coutry   string `json:"coutry"`
-		Cep      string `json:"cep"`
-		Number   string `json:"number"`
+		Name           string `json:"name"`
+		Email          string `json:"email"`
+		Password       string `json:"password"`
+		City           string `json:"city"`
+		State          string `json:"state"`
+		Coutry         string `json:"coutry"`
+		Cep            string `json:"cep"`
+		Number         string `json:"number"`
+		AccountBillers bool   `json:"account_billers"`
 	}
 	var body personJson
 
@@ -39,16 +40,17 @@ func postUserHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	person := entity.Usuario{
-		ID:        primitive.NewObjectID(),
-		Name:      body.Name,
-		Email:     body.Email,
-		Password:  body.Password,
-		City:      body.City,
-		State:     body.State,
-		Coutry:    body.Coutry,
-		Cep:       body.Cep,
-		Number:    body.Number,
-		CreatedAt: time.Now(),
+		ID:             primitive.NewObjectID(),
+		Name:           body.Name,
+		Email:          body.Email,
+		Password:       body.Password,
+		City:           body.City,
+		State:          body.State,
+		Coutry:         body.Coutry,
+		Cep:            body.Cep,
+		Number:         body.Number,
+		AccountBillers: body.AccountBillers,
+		CreatedAt:      time.Now(),
 	}
 	manager := core.NewUser()
 	sendManager := manager.UserPostManager(ctx, person)

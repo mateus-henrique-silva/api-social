@@ -7,14 +7,15 @@ import (
 )
 
 type Usuario struct {
-	ID        primitive.ObjectID `bson:"_id"`
-	Name      string             `bson:"name"`
-	Email     string             `bson:"email"`
-	Number    string             `bson:"number"`
-	Password  string             `bson:"password"`
-	City      string             `bson:"city"`
-	State     string             `bson:"state"`
-	Coutry    string             `bson:"coutry"`
-	Cep       string             `bson:"cep"`
-	CreatedAt time.Time          `bson:"created"`
+	ID             primitive.ObjectID `bson:"_id"`
+	Name           string             `bson:"name"`
+	Email          string             `bson:"email"`
+	Number         string             `bson:"number"`
+	Password       string             `bson:"password"`
+	City           string             `bson:"city"`
+	State          string             `bson:"state"`
+	Coutry         string             `bson:"coutry"`
+	Cep            string             `bson:"cep"`
+	AccountBillers bool               `bson:"account_billers"`
+	CreatedAt      time.Time          `bson:"created"`
 }
