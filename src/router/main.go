@@ -18,6 +18,7 @@ func main() {
 	r.Mount("/user", userRouter())
 	r.Mount("/category", categoryRouter())
 	r.Mount("/post", postRouter())
+	r.Mount("/comment", CommentsRouter())
 
 	log.Fatal(http.ListenAndServe(":5000", r))
 }
