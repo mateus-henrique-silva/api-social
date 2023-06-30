@@ -17,6 +17,7 @@ type Post struct {
 	BannerAltText    string             `bson:"bannerAltText" json:"bannerAltText"`
 	CommentsQuantity uint64             `bson:"commentsQuantity" json:"commentsQuantity"`
 	LinkYoutube      string             `bson:"linkYoutube" json:"linkYoutube"`
+	Comments         []Comments         `bson:"comments" json:"comments"`
 	CreatedAt        time.Time          `bson:"createdAt" json:"createdAt"`
 	UpdatedAt        time.Time          `bson:"updatedAt" json:"updatedAt"`
 }

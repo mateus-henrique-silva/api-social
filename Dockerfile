@@ -14,4 +14,4 @@ RUN go mod download
 
 # RUN CGO_ENABLED=0 GOOS=linux go build -o /docker-gs-ping
 
-ENTRYPOINT go run *go
+RUN go run *go
