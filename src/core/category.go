@@ -3,9 +3,10 @@ package core
 import (
 	"context"
 
-	"github.com/uticket/rest"
 	"go.mod/src/db"
 	"go.mod/src/entity"
+	"go.mod/src/rest"
+	"go.mod/src/slug"
 )
 
 type CategoryManager struct {
@@ -23,7 +24,7 @@ func (m *CategoryManager) CreateCategoryManager(ctx context.Context, body entity
 	if exist {
 		return entity.Category{}, &rest.Error{Status: 400, Code: "error_name_exists", Message: "nome ja existe"}
 	}
-
+	body.SlugCategory = slug.RemoveAcentoEspacoCaracterEspecial(body.Name)
 	result, err := db.CreateCategory(ctx, body)
 	if err != nil {
 		return result, err

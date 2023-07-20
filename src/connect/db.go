@@ -3,6 +3,7 @@ package connect
 import (
 	"context"
 	"log"
+	"os"
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -17,7 +18,9 @@ var (
 // tfxY81frdh82wnia
 func ConfigDataBase() (*mongo.Client, error) {
 	ctx := context.TODO()
-	clientOptions := options.Client().ApplyURI("mongodb+srv://henriques:tfxY81frdh82wnia@cluster0.pwv6yik.mongodb.net/?retryWrites=true&w=majority")
+	Load()
+	mongoUri := os.Getenv("MONGODB_URI")
+	clientOptions := options.Client().ApplyURI(mongoUri)
 	client, err := mongo.Connect(ctx, clientOptions)
 	if err != nil {
 		return nil, err

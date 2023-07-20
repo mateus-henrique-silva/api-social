@@ -2,19 +2,19 @@ package connect
 
 import (
 	"log"
-	"os"
 
 	"github.com/joho/godotenv"
 )
 
 var (
-	SecretKey []byte
+	Port     string
+	MongoUri string
 )
 
 func Load() {
 
-	if err := godotenv.Load(); err != nil {
+	if err := godotenv.Load("../../.env"); err != nil {
 		log.Fatal(err)
 	}
-	SecretKey = []byte(os.Getenv("SECRET_KEY"))
+
 }

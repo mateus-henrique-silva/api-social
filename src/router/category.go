@@ -5,7 +5,8 @@ import (
 	"time"
 
 	"github.com/go-chi/chi/v5"
-	"github.com/uticket/rest"
+	"go.mod/src/rest"
+
 	"go.mod/src/core"
 	"go.mod/src/entity"
 	"go.mongodb.org/mongo-driver/bson/primitive"

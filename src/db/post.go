@@ -62,7 +62,7 @@ func GetIndexPost(ctx context.Context) ([]entity.PostReturnResponse, error) {
 		}
 
 		postReturnResponse.Category = post.Category
-		postReturnResponse.Post = post
+		postReturnResponse.Post[0] = post
 
 		data = append(data, postReturnResponse)
 	}
@@ -85,7 +85,7 @@ func GetPost(ctx context.Context, name string) (entity.Post, error) {
 	commentCollection := db.Collection("comments")
 
 	post := entity.Post{}
-	err = postCollection.FindOne(ctx, bson.M{"name": name}).Decode(&post)
+	err = postCollection.FindOne(ctx, bson.M{"titleSlug": name}).Decode(&post)
 	if err != nil {
 		return entity.Post{}, err
 	}
@@ -110,4 +110,42 @@ func GetPost(ctx context.Context, name string) (entity.Post, error) {
 
 	post.Comments = comments
 	return post, nil
+}
+
+func GetPostCard(ctx context.Context) ([]entity.PostReturnResponse, error) {
+	client, err := connect.ConfigDataBase()
+	if err != nil {
+		return nil, err
+	}
+
+	db := client.Database("mydb")
+	postCollection := db.Collection("post")
+
+	// Encontrar todos os posts
+	result, err := postCollection.Find(ctx, bson.M{})
+	if err != nil {
+		return nil, err
+	}
+
+	// Mapa para armazenar os posts agrupados por categoria
+	postMap := make(map[string][]entity.Post)
+	for result.Next(ctx) {
+		post := entity.Post{}
+		err := result.Decode(&post)
+		if err != nil {
+			return nil, err
+		}
+		postMap[post.Category] = append(postMap[post.Category], post)
+	}
+
+	// Criar a resposta final com a estrutura desejada
+	var response []entity.PostReturnResponse
+	for category, posts := range postMap {
+		response = append(response, entity.PostReturnResponse{
+			Category: category,
+			Post:     posts,
+		})
+	}
+
+	return response, nil
 }

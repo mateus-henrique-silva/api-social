@@ -4,9 +4,9 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
-	"github.com/uticket/rest"
 	"go.mod/src/core"
 	"go.mod/src/entity"
+	"go.mod/src/rest"
 )
 
 func LoginRouter() http.Handler {
@@ -30,12 +30,9 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 		Password: body.Password,
 	}
 	manager := core.NewManagerLogin()
-	boolean, err := manager.ManagerLoginVerify(ctx, person)
-	if err != nil {
-		rest.SendError(w, err)
-		return
-	}
+	boolean, _ := manager.ManagerLoginVerify(ctx, person)
 
-	w.Write([]byte(boolean))
+	// w.Write([]byte(boolean))
+	rest.Send(w, boolean)
 
 }

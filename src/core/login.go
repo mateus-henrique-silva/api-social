@@ -4,10 +4,10 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/uticket/rest"
 	"go.mod/src/autenticacao"
 	"go.mod/src/db"
 	"go.mod/src/entity"
+	"go.mod/src/rest"
 )
 
 type ManagerLogin struct {
@@ -42,14 +42,17 @@ func (m *ManagerLogin) ManagerLoginVerify(ctx context.Context, body entity.Login
 	if valid == true && validEmail == true {
 		validation = true
 		userId, err := db.ReturnByIdLogin(ctx, body.Email)
+		if err != nil {
+			return userId.String(), err
+		}
 		fmt.Println(userId)
 		token, err := autenticacao.CreateToken(ctx, userId)
-		fmt.Println(token)
 		if err != nil {
-			return "", err
+			return token, err
 		}
+		fmt.Println("testando aqui o token: " + token)
 		fmt.Println(token)
-		return "", nil
+		return token, nil
 	}
 	return token, nil
 }

@@ -3,9 +3,9 @@ package core
 import (
 	"context"
 
-	"github.com/uticket/rest"
 	"go.mod/src/db"
 	"go.mod/src/entity"
+	"go.mod/src/rest"
 )
 
 type PostManager struct {
@@ -45,5 +45,13 @@ func (m *PostManager) GetIndexPostById(ctx context.Context, id string) (entity.P
 		return entity.Post{}, &rest.Error{Status: 400, Code: "erro_consult", Message: "erro ao realizar consulta de retorno de dados da api"}
 	}
 
+	return server, nil
+}
+
+func (m *PostManager) GetIndexPostCards(ctx context.Context) ([]entity.PostReturnResponse, error) {
+	server, err := db.GetPostCard(ctx)
+	if err != nil {
+		return nil, &rest.Error{Status: 400, Code: "erro_consult", Message: "erro ao realizar consulta de retorno de dados da api"}
+	}
 	return server, nil
 }

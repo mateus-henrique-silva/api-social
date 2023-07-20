@@ -1,17 +1,16 @@
-FROM golang:1.16
+FROM golang:1.20-alpine as base
 
-WORKDIR /src/router
-COPY . .
+COPY . /api
 
-# Install Git
-RUN apt-get update && apt-get install -y git
+WORKDIR /api/src/router
 
-# Remove specific revision if present
-RUN go clean -modcache
+RUN go mod tidy
 
-# Download Go modules
-RUN go mod download
+RUN go build -o router .
 
-# RUN CGO_ENABLED=0 GOOS=linux go build -o /docker-gs-ping
+ARG PORT
+ENV PORT=$PORT
 
-RUN go run *go
+EXPOSE $PORT
+
+CMD ["./router"]

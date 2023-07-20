@@ -7,11 +7,12 @@ import (
 	"fmt"
 	"math/big"
 	"net/http"
+	"os"
 	"strings"
 	"time"
 
 	jwt "github.com/dgrijalva/jwt-go"
-	"go.mod/src/connect"
+
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
@@ -25,9 +26,9 @@ func CreateToken(ctx context.Context, usuarioID primitive.ObjectID) (string, err
 		return "", err
 	}
 	permission["usuarioId"] = id
-
+	SecretKey := []byte(os.Getenv("SECRET_KEY"))
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, permission)
-	str, err := token.SignedString([]byte(connect.SecretKey))
+	str, err := token.SignedString([]byte(SecretKey))
 	if err != nil {
 		return "", err
 	}
@@ -67,7 +68,8 @@ func returnKeyVerification(token *jwt.Token) (interface{}, error) {
 	if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 		return nil, fmt.Errorf("Método de assinatura inesperado")
 	}
-	return []byte(connect.SecretKey), nil
+	SecretKey := []byte(os.Getenv("SECRET_KEY"))
+	return []byte(SecretKey), nil
 }
 
 func ExtractNumberFromObjectID(objectID primitive.ObjectID) (int64, error) {

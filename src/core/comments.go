@@ -3,9 +3,9 @@ package core
 import (
 	"context"
 
-	"github.com/uticket/rest"
 	"go.mod/src/db"
 	"go.mod/src/entity"
+	"go.mod/src/rest"
 )
 
 type CommentsManager struct {
